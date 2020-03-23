@@ -1,0 +1,31 @@
+{
+  "name": "book-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nero94/book-service.git"
+  },
+  "author": "Vasyl Dmytriv",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nero94/book-service/issues"
+  },
+  "homepage": "https://github.com/nero94/book-service#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "uuid": "^7.0.2",
+    "winston": "^3.2.1",
+    "aws-sdk": "^2.643.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}

@@ -1,0 +1,73 @@
+service: book-service
+app: book-service
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  environment:
+    BOOKS_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "*"
+
+functions:
+  create:
+    handler: app/index.createBook
+    events:
+      - http:
+          path: book/add
+          method: post
+          cors: true
+  update:
+    handler: app/index.updateBook
+    events:
+      - http:
+          path: book/{uuid}/update
+          method: post
+          cors: true
+  delete:
+    handler: app/index.deleteBook
+    events:
+      - http:
+          path: book/{uuid}/delete
+          method: delete
+          cors: true
+  list:
+    handler: app/index.getAllBooks
+    events:
+      - http:
+          path: books
+          method: get
+          cors: true
+  get:
+    handler: app/index.getBook
+    events:
+      - http:
+          path: book/{uuid}
+          method: get
+          cors: true
+resources:
+  Resources:
+    TodosDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: uuid
+            AttributeType: S
+        KeySchema:
+          - AttributeName: uuid
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.BOOKS_TABLE}
